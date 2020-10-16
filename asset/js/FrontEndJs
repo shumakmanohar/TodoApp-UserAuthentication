@@ -1,0 +1,101 @@
+
+// Getting The elements
+
+const hamburgerBtn = document.querySelector('.todoMenu'),
+ todoMain  = document.querySelector('.todoMain'),
+ todoMainUL =document.querySelector('.todoMain ul'),
+ inputTask = document.querySelector('.todoFoot input'),
+ addbtn = document.querySelector('.addBtn'),
+ task = document.querySelector('.task-name'),
+ todoOptions = document.querySelector('.todoOptions')
+
+
+
+//Events
+hamburgerBtn.addEventListener("click",toggleMenu)
+todoMainUL.addEventListener("click",checkDelete)
+addbtn.addEventListener("click",addTask)
+inputTask.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        let newTask = inputTask.value.trim();
+        if(newTask != ""){
+        document.getElementById("myForm").submit();
+        }
+    }
+});
+
+
+//FUCNTIONS
+//svgVisibility()
+function addTask(event)
+{   
+    event.preventDefault();
+    console.log(inputTask.value);
+    let newTask = inputTask.value.trim();
+    if(newTask != ""){
+       
+        document.getElementById("myForm").submit();
+        
+        inputTask.value = ""
+    }  
+}
+
+function checkDelete(event)
+{
+  var item = event.target;
+  if(item.classList[0] == 'checkbox')
+  {
+   
+    let link = "/todo/checktask"
+    fetch_Delete_Check_task(link,item)
+  }
+  if(item.classList[1] ==  'fa-trash')
+  {
+   
+    let link = "/todo/deletetask"
+    fetch_Delete_Check_task(link,item)
+  }
+}
+
+function svgVisibility()
+{  
+    let todoSvg =  document.querySelector('.todoSvg')
+    if(todoMainUL.childElementCount == 0)
+    {
+       
+        todoSvg.style.display = ''
+        todoMainUL.style.display = 'none'
+    }
+    else
+    {  
+       
+       todoSvg.style.display = "none";
+       todoMainUL.style.display = ''
+    }
+}
+
+function fetch_Delete_Check_task(link,item)
+{
+    let parent = item.parentNode
+
+    const newData = {task: [parent.textContent.trim()]}
+    var options = {  
+    method:'POST',
+        body: JSON.stringify(newData),
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    };
+  fetch(link, options)
+  .then(response => {
+      console.log("DONE")
+      location.reload(true)
+  })
+  .catch(err =>console.log(err));
+}
+
+function toggleMenu() {
+    console.log(todoOptions)
+    todoOptions.classList.toggle('todoOptionsFade') 
+    document.querySelector('.todoFoot').classList.toggle('todoFootNone') 
+}
