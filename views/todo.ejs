@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../asset/css/style.css">
+    <title>ToDo App</title>
+</head>
+<body>
+    <div class="container">
+        <div class="todoApp">
+            <div class="todoOptions">
+                <ul>
+                    <li>Hi <%-details.name %> </li>
+                    <li><a href="todo/logout">Logout</a></li>
+                </ul>
+            </div>
+            <div class="todoHead">
+               <div class="todoMenu">
+                   <div class="bar one"></div>
+                   <div class="bar two"></div>
+                   <div class="bar three"></div>
+               </div>
+               <h1>ToDo</h1>
+            </div>
+            <div class="todoMain">
+                <% if(details.tasks == ""){%>
+                   <img class="todoSvg" src="../asset/img/todo_illustrate.svg" alt="SVG">
+                <% } else { %>
+                 <ul>
+                  <% details.tasks.forEach(task => { %>
+                   <% if(task.checked == true){ %>
+                        <li><div class="checkbox checked "></div><p class="taskname done"><%- task.task %> </p><i class="fa fa-trash"></i></li>       
+                    <% } else { %>
+                    <li><div class="checkbox"></div><p class="taskname"><%- task.task %> </p><i class="fa fa-trash"></i></li>  
+                    <% } %> 
+                 <% }) %> 
+                 <% } %> 
+                </ul> 
+            </div>
+            <div class="todoFoot">
+              <form action="/todo" method="POST" id="myForm">
+                <input type="text" placeholder="Add new Task" name="task">
+                <button  class="addBtn">+</button>
+              </form>
+            </div>
+        </div>
+        
+    </div>
+<script async src="../asset/js/script.js"></script>
+</body>
+</html>
